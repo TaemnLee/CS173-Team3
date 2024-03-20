@@ -1,6 +1,6 @@
-                                              # CS173-Team3
+# CS173-Team3
 
-                                  **Denison CS173 Group Assignment 2**    
+**Denison CS173 Group Assignment 2**    
 
 Group Members: Taemin, Adam, Tri, Damian
 
