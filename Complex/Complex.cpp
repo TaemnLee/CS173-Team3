@@ -72,6 +72,8 @@ Complex Complex::operator=(const Complex &c){
     return *this;
 }
 //====================================================================
+// Taemin Lee
+//
 // operator+
 // c1 = c2 + c3
 // Will take the components of c2 + c3 and return them to c1.
@@ -87,6 +89,8 @@ Complex Complex::operator+(const Complex &c) const{
     return ret;
 }
 //====================================================================
+// Taemin Lee
+//
 // operator-
 // c1 = c2 - f
 // Will take the components of c2 - f and return them to c1.
@@ -102,6 +106,8 @@ Complex Complex::operator-(double f) const{
     return ret;
 }
 //====================================================================
+// Taemin Lee
+//
 // operator*
 // c1 = c2 * i
 // Will take the components of c2 * i and return them to c1.
@@ -117,6 +123,8 @@ Complex Complex::operator*(int i) const{
     return ret;
 }
 //====================================================================
+// Taemin Lee
+//
 // operator/
 // c1 = c2 / i
 // Will take the components of c2 / i and return them to c1.
@@ -132,6 +140,8 @@ Complex Complex::operator/(int i) const{
     return ret;
 }
 //====================================================================
+// Taemin Lee
+//
 // operator~
 // a + bi = a - bi 
 // Will take the components of c1 and return them to -c1.
@@ -147,6 +157,8 @@ Complex Complex::operator~(void) const{
     return ret;
 }
 //====================================================================
+// Taemin Lee
+//
 // operator^ (exponentiation)
 // Will return *this ^ p  where p is an integer
 // Parameters: int p
