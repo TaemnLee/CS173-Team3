@@ -74,6 +74,101 @@ Complex Complex::operator=(const Complex &c){
 //====================================================================
 // operator+
 // c1 = c2 + c3
-// Parameters: none
-// Return Value: none
+// Will take the components of c2 + c3 and return them to c1.
+// Parameters: Complex object c
+// Return Value: sum of *this + c
 //====================================================================
+Complex Complex::operator+(const Complex &c) const{
+    Complex ret;
+
+    ret.a = c.a + (*this).a;
+    ret.b = c.b + (*this).b;
+
+    return ret;
+}
+//====================================================================
+// operator-
+// c1 = c2 - f
+// Will take the components of c2 - f and return them to c1.
+// Parameters: double f
+// Return Value: sum of *this - f
+//====================================================================
+Complex Complex::operator-(double f) const{
+    Complex ret;
+
+    ret.a = (*this).a - f;
+    ret.b = (*this).b;
+
+    return ret;
+}
+//====================================================================
+// operator*
+// c1 = c2 * i
+// Will take the components of c2 * i and return them to c1.
+// Parameters: int i
+// Return Value: product of *this * i
+//====================================================================
+Complex Complex::operator*(int i) const{
+    Complex ret;
+
+    ret.a = (*this).a * i;
+    ret.b = (*this).b * i;
+
+    return ret;
+}
+//====================================================================
+// operator/
+// c1 = c2 / i
+// Will take the components of c2 / i and return them to c1.
+// Parameters: int i
+// Return Value: product of *this * 1/i
+//====================================================================
+Complex Complex::operator/(int i) const{
+    Complex ret;
+
+    ret.a = (*this).a * (1/i);
+    ret.b = (*this).a * (1/i);
+
+    return ret;
+}
+//====================================================================
+// operator~
+// a + bi = a - bi 
+// Will take the components of c1 and return them to -c1.
+// Parameters: none
+// Return Value: product of *this * 1/i
+//====================================================================
+Complex Complex::operator~(void) const{
+    Complex ret;
+
+    ret.a = (*this).a;
+    ret.b = (*this).b * (-1);
+
+    return ret;
+}
+//====================================================================
+// operator^ (exponentiation)
+// Will return *this ^ p  where p is an integer
+// Parameters: int p
+// Return Value: returns *this ^ p power. If p == 0, then returns *this.
+// if p < 0, then returns (1/*this)^|p|
+//====================================================================
+Complex Complex::operator^(int p) const{
+    Complex ret(1,1);
+    int real, imag;
+
+    if (p >= 0){
+        real = a;
+        imag = b;
+    } else {
+        real = a;
+        imag = -b;
+        p = -p;
+    }
+
+    for (int i = 0; i < p; i++){
+        ret = ret * (*this);
+    }
+
+    return ret;
+}
