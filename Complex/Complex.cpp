@@ -326,7 +326,7 @@ istream & operator>>(istream &is, Complex &c) {
         }
         else if (plusPos == string::npos && minusPos == string::npos) { //no plus sign and no negative meaning imaginary part is positive
             realPart = '0';                                             // with no real part (real = 0)
-            imagePart = input;
+            imagPart = input;
         }
         else if (minusPos != string::npos && minusPos != 0) { //negative imaginary part with positve real part
             realPart = input.substr(0,minusPos);
@@ -340,10 +340,10 @@ istream & operator>>(istream &is, Complex &c) {
                 realPart = '-' + input.substr(0, minusPos);
                 imagPart = input.substr(minusPos);
             }
-            else ( 
+            else { 
                 realPart = '0'; //if after deleting the first minus there is no more, then negative imaginary part with no real part
                 imagPart = '-' + input;
-            )
+            }
         }
 
 
