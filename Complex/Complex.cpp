@@ -443,3 +443,27 @@ istream & operator>>(istream &is, Complex &c) {
 
     return is;
 }
+
+// ====================================================
+// cout/ostream os function
+// Tri Dang
+//
+// Funtionality: overloading cout functionality into class. Function will always output the real number then check if the imaginary is
+// not 0 to avoid filler +/- 0. Will output + if b is positive and - if b is negative with an i to signify it is an imaginary number.
+//
+// Parameters: ostream os (reference), Complex c (reference)
+//
+// Return: ostream os
+// ====================================================
+
+ostream & operator<< ( ostream &os, const Complex &c ){
+	os << c.a; // outputs a, the real number
+	if (c.b != 0){ // if imaginary is 0, no furthermore output is necessary (a + 0 is the same as a)
+		if (c.b > 0){
+			os << " + " << c.b << "i";
+		} else{
+			os << " - " << c.b << "i";
+		}
+	}
+	return os;
+}
