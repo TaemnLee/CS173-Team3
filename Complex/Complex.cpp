@@ -10,7 +10,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
-#include <cstddef>
+#include <cmath>
+#include <stdexcept>
 using namespace std;
 
 //====================================================================
@@ -87,7 +88,7 @@ double      Complex::getReal         ( void ) const {
 // Accessor method setImag.
 // Author: Adam Cristo
 // Change b (imaginary part) to the specified parameter.
-// Parameters: r = double value for imaginary number
+// Parameters: r - double value for imaginary number
 // Return value is none
 //====================================================================
 void Complex::setImag(double r){
@@ -129,22 +130,26 @@ Complex Complex::operator=(const Complex &c){
 // Computes the sum of this Complex object and another Complex object.
 // Parameters: c - a const reference to the Complex object that will 
 //                 be added to this object.
-// Return Value: sum of *this + c
+// Return Value: sum of c2 and c3
 //====================================================================
 Complex Complex::operator+(const Complex &c) const{
     Complex ret;
 
-    ret.a = c.a + (*this).a;
-    ret.b = c.b + (*this).b;
+    ret.a = a + c.a;
+    ret.b = b + c.b;
 
     return ret;
 }
 // ====================================================
-// Operator+ overload with adding decimal
+// Operator+ overload with adding double
 // Author: Damian Nguyen
-// Parameter: None
-// Create a Complex variable ret and perfom necessary addition with the real part
-// Return value: ret 
+// Create a new Complex object representing the sum of 
+// this Complex object and a decimal value added to its real part.
+// Parameter: f - double value to be added to the real
+//                part of this Complex object.
+// Return value: ret - a new Complex object representing
+//                     the sum of this Complex object
+//                     and the decimal value.
 // ====================================================
 Complex     Complex::operator+       ( double f ) const {
     Complex ret; 
@@ -152,10 +157,16 @@ Complex     Complex::operator+       ( double f ) const {
     ret.b = b;
     return ret;
 }
+// ====================================================
 // Operator + adding integers
 // Author: Adam Cristo
-// creates the verable and adds the integer.
-// returns ret
+// creates a new Complex object and adds the integer.
+// Parameter: i - int value to be added to the real of 
+//                this Complex object.
+// Return value: ret - a new Complex object representing
+//                     the sum of this Complex object
+//                     and the integer value
+// ====================================================
 Complex Complex::operator+ (int i) const{
     Complex ret;
     ret.a = a + i;
@@ -165,10 +176,12 @@ Complex Complex::operator+ (int i) const{
 // ====================================================
 // Operator- overload with subtracting complex number
 // Author: Damian Nguyen
-// Parameter: None
-// Create a Complex variable ret and perfom necessary subtraction with the real part
-// and imaginary part.
-// Return value: ret 
+// Create a Complex variable ret and perfom necessary 
+// subtraction with the real part and imaginary part.
+// Parameter: c - The complex object to be subtracted 
+//                from this complex object.
+// Return value: ret - a new complex object representing
+//                     the result of the subtraction.
 // ====================================================
 Complex     Complex::operator-       ( const Complex &c ) const {
     Complex ret;
@@ -188,15 +201,18 @@ Complex     Complex::operator-       ( const Complex &c ) const {
 Complex Complex::operator-(double f) const{
     Complex ret;
 
-    ret.a = (*this).a - f;
-    ret.b = (*this).b;
+    ret.a = a - f;
+    ret.b = b;
 
     return ret;
 }
+//=====================================================
 // Operator - subtraction
 // Author: Adam Cristo
 // subtracts the variable by the integer
-// returns ret
+// Parameters: int i
+// Return value: ret - result of subtraction
+//=====================================================
 Complex Complex::operator- (int i) const{
     Complex ret;
     ret.a = a - i;
@@ -206,21 +222,25 @@ Complex Complex::operator- (int i) const{
 // ====================================================
 // Operator* overload with multiplying complex number
 // Author: Damian Nguyen
-// Parameter: None
 // Create a Complex variable ret and perfom necessary multiplcation with the real part
 // and imaginary part.
-// Return value: ret 
+// Parameter: c - The Complex object to be multiplied with the current Complex object.
+// Return value: ret - A new Complex object representing 
+//                  the product of the two complex numbers.
 // ====================================================
 Complex     Complex::operator*       ( const Complex &c ) const {
     Complex ret; 
     ret.a = a*c.a - b*c.b;
-    ret.b = a*c.b + + b*c.a;
+    ret.b = a*c.b + b*c.a;
     return ret;
 }
-// Operator * multiplication
+// =====================================================
+// Operator* multiplication
 // Author: Adam Cristo
-// Multiplies the a times the float and the b times the float
-// Returns ret
+// Multiplies the a times the double and the b times the double
+// Parameters: double f
+// Returns ret - product of complex number and double
+//======================================================
 Complex Complex::operator* (const double f) const{
     Complex ret;
     ret.a = a * f;
@@ -234,29 +254,33 @@ Complex Complex::operator* (const double f) const{
 // c1 = c2 * i
 // Will take the components of c2 * i and return them to c1.
 // Parameters: int i
-// Return Value: product of *this * i
+// Return Value: product of complex number and integer i 
 //====================================================================
 Complex Complex::operator*(int i) const{
     Complex ret;
 
-    ret.a = (*this).a * i;
-    ret.b = (*this).b * i;
+    ret.a = a * i;
+    ret.b = b * i;
 
     return ret;
 }
+//====================================================================
 // Operator / division
 // Author: Adam Cristo
 // Checks if the variables are not 0
 // Does the complex forumula for complex number division
+// Parameters: c - Complex number that divides the current Complex number
 // returns ret
+//====================================================================
+
 Complex Complex::operator/ (const Complex &c) const{
     Complex ret;
     if (c.a == 0 && c.b == 0){
-        cout << "Cannot divide by 0";
-        exit(1);
+        throw runtime_error("Cannot divide by 0");
     }
-    ret.a = ((a*c.a)+(b*c.b))/((c.^2)+(c.b^2));
-    ret.b = ((b*c.a)-(a*c.b))/((c.a^2)+(c.b^2));
+    ret.a = ((a*c.a)+(b*c.b))/((c.a*c.a)+(c.b*c.b));
+    ret.b = ((b*c.a)-(a*c.b))/((c.a*c.a)+(c.b*c.b));
+
     return ret;
 }
 // ====================================================
@@ -270,8 +294,7 @@ Complex Complex::operator/ (const Complex &c) const{
 Complex     Complex::operator/       ( double f ) const {
     Complex ret;
     if (f == 0) { //check if f = 0, cant divide
-        cout << "Cannot divide by 0";
-        exit(1);
+        throw runtime_error("Cannot divide by 0");
     }
     ret.a = a/f;
     ret.b = b/f;
@@ -288,40 +311,30 @@ Complex     Complex::operator/       ( double f ) const {
 //====================================================================
 Complex Complex::operator/(int i) const{
     Complex ret;
-
-    ret.a = (*this).a * (1/i);
-    ret.b = (*this).a * (1/i);
+    if (i == 0){
+        throw runtime_error("Cannot divide by 0");
+    }
+    ret.a = a/i;
+    ret.b = b/i;
 
     return ret;
 }
 //====================================================================
 // Taemin Lee
 //
-// operator~
+// operator~ (conjugate)
 // a + bi = a - bi 
 // Will take the components of c1 and return them to -c1.
 // Parameters: none
-// Return Value: product of *this * 1/i
+// Return Value: ret - complex number where real part remains the same
+//                     while imaginary number's sign is reversed.
 //====================================================================
 Complex Complex::operator~(void) const{
     Complex ret;
 
-    ret.a = (*this).a;
-    ret.b = (*this).b * (-1);
+    ret.a = a;
+    ret.b = -b;
 
-    return ret;
-}
-// ====================================================
-// Operator~ overload
-// Author: Damian Nguyen
-// Parameter: None
-// Create a Complex variable ret and perfom negation of sign
-// Return value: ret 
-// ====================================================
-Complex     Complex::operator~       ( void ) const {
-    Complex ret; 
-    ret.a = -1*a;
-    ret.b = -1*b;
     return ret;
 }
 //====================================================================
@@ -334,29 +347,52 @@ Complex     Complex::operator~       ( void ) const {
 // if p < 0, then returns (1/*this)^|p|
 //====================================================================
 Complex Complex::operator^(int p) const{
-    Complex ret(1,1);
-    int real, imag;
+    Complex ret(1, 0);
 
-    if (p >= 0){
-        real = a;
-        imag = b;
+    if (p >= 0) {
+        for (int i = 0; i < p; i++) {
+            ret = ret * (*this);
+        }
     } else {
-        real = a;
-        imag = -b;
-        p = -p;
+        Complex reciprocal = Complex(1, 0) / (*this);
+        for (int i = 0; i < -p; i++) { 
+            ret = ret * reciprocal;
+        }
     }
 
-    for (int i = 0; i < p; i++){
-        ret = ret * (*this);
-    }
+    return ret;
+}
+//====================================================================
+// Taemin Lee
+//
+// abs
+// Will return the absolute value of the complex number.
+// Parameters: none.
+// Return value: squre sum of power of two to the real and img part.
+//====================================================================
+double Complex::abs(void) const{
+    return sqrt(a*a + b*b);
+}
 
+// ====================================================
+// Negation (Operator- overload)
+// Author: Damian Nguyen
+// Parameter: None
+// Create a Complex variable ret and perfom negation of sign
+// Return value: ret - negated complex number
+// ====================================================
+Complex     Complex::operator-       ( void ) const {
+    Complex ret; 
+    ret.a = -1*a;
+    ret.b = -1*b;
     return ret;
 }
 
 // ====================================================
 // Operator== overload 
 // Author: Damian Nguyen
-// Parameter: None
+// Parameter: c - Complex object to check the equality
+//                of the existing Complex number.
 // Return value: Return true if real part is equal and imaginary part is equal and false otherwise
 // ====================================================
 
@@ -369,10 +405,12 @@ bool        Complex::operator==      ( const Complex &c ) const {
 
     return result;
 }
+// =====================================================
 // Operator != does not equal
 // Author: Adam Cristo
 // Checks if the variables are not equal to each other.
 // Return value is the result whether true or false (bool)
+// =====================================================
 bool Complex::operator!= (const Complex &c) const{
     bool result;
     if (a != c.a || b != c.b){
@@ -381,6 +419,39 @@ bool Complex::operator!= (const Complex &c) const{
         result = false;
     }
     return result;
+}
+// ====================================================
+// Taemin Lee, Tri
+// 
+// cout operator<< overload
+// A string is created with value "a+bi" from c and then
+// this string is inserted into the stream os.
+// Parameters: ostream os, Complex object c
+// Return Value: ostream os
+//
+// If imaginary part is 1 or -1, we just print i or -i.
+// ====================================================
+ostream & operator<<(ostream &os, const Complex &c){
+
+    if (c.a != 0) {
+        os << c.a;  // Print the real part
+    }
+
+    if (c.b != 0) {
+        if (c.a != 0 && c.b > 0) {
+            os << " + ";
+        } else if (c.a != 0 && c.b < 0) {
+            os << " - ";
+        }
+        
+        if (abs(c.b) != 1) {  // Avoid printing 1 or -1
+            os << abs(c.b);  // Print the magnitude of the imaginary part
+        }
+        os << "i";
+    } else if (c.a == 0) {  // Only print 0 if both real and imaginary parts are zero
+        os << "0";
+    }
+    return os;
 }
 // ====================================================
 // cin >> overload to allow cin >> c
@@ -406,36 +477,59 @@ istream & operator>>(istream &is, Complex &c) {
     // Determine if the input has an imaginary part
     if (iPos != string::npos) {  //has an imaginary part
         if (plusPos != string::npos && plusPos != 0) { //positive imaginary part and real part !=0
-            realPart = input.substr(0,plusPos);
-            imagPart = input.substr(plusPos);
+            if (minusPos == plusPos +1) { // a+-bi
+                realPart = input.substr(0,plusPos);
+                imagPart = input.substr(minusPos);
+            }
+            
+            else {
+                realPart = input.substr(0,plusPos);
+                imagPart = input.substr(plusPos);
+               
+            }
         }
-        else if (plusPos == string::npos && minusPos == string::npos) { //no plus sign and no negative meaning imaginary part is positive
-            realPart = '0';                                             // with no real part (real = 0)
-            imagPart = input;
+        else if (plusPos != string::npos && plusPos == 0) { //there is a plus at the start
+            input.erase(0,1);
+            plusPos = input.find('+');
+            if (plusPos != string::npos) { //if after erasing there is still a + then +a + bi
+                realPart = input.substr(0,plusPos);
+                imagPart = input.substr(plusPos);
+            } else {  //there is no + after deleting, meaning positive imaginary part with no real  aprt
+                realPart = "0";
+                imagPart = input;
+            } 
         }
         else if (minusPos != string::npos && minusPos != 0) { //negative imaginary part with positve real part
             realPart = input.substr(0,minusPos);
             imagPart = input.substr(minusPos);
         }
-
         else if (minusPos != string::npos && minusPos == 0) { //minus found at the first position
             input.erase(0,1);
             minusPos = input.find('-');
             if (minusPos != string::npos) {  //negative real part with negative imaginary part
                 realPart = '-' + input.substr(0, minusPos);
                 imagPart = input.substr(minusPos);
-            }
-            else { 
+            } else {
                 realPart = '0'; //if after deleting the first minus there is no more, then negative imaginary part with no real part
                 imagPart = '-' + input;
             }
         }
 
-
-    }
-    else { //no imaginary part, only real part
+        else if (plusPos == string::npos && minusPos == string::npos) { //no plus sign and no negative meaning imaginary part is positive
+            realPart = '0';                                             // with no real part (real = 0)
+            imagPart = input;
+        }
+        
+    } else { //no imaginary part, only real part
         realPart = input; 
         imagPart = '0';
+    }
+
+    if (imagPart == "i" || imagPart == "+i") {
+        imagPart = "1";
+    }
+    else if (imagPart == "-i") {
+        imagPart = "-1";
     }
 
     c.a = stod(realPart);
