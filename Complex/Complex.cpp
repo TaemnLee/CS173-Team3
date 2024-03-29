@@ -25,11 +25,36 @@ Complex::Complex(void){
     a = 0;
     b = 0;    
 }
+
+// ====================================================
+// Copy constructor
+// Author: Damian Nguyen
+// Constructs a complex object as a copy of another Complex object.
+// Parameter: variable c of complex class passed by reference
+// Return value: None
+// ====================================================
+
+            Complex::Complex        ( const Complex &c ) {
+    a = c.a;
+    b = c.b;
+}
+// =======================================================================
+// Constructor (a,b)
+// Author: Adam Cristo
+// Parameters:
+//   - x: The value for the real part of the complex number
+//   - y: The value for the imaginary part. Defaults to 0 if not provided.
+// Return value: none
+// =======================================================================
+Complex::Complex (const double x, double y){
+    a = x;
+    b = y;
+}
 //====================================================================
 // Taemin Lee
 //
 // Destructor
-// Cleans up the memory
+// Destroys the Complex object and cleans up the memory
 // Parameters: none
 // Return Value: none
 //====================================================================
@@ -40,12 +65,33 @@ Complex::~Complex(void){
 // Taemin Lee
 //
 // setReal
-// Change the a (real part of complex number) to the specified parameter.
+// Change a (real part of complex number) to the specified parameter.
 // Parameters: r - double value for real number
 // Return Value: none.
 //====================================================================
 void Complex::setReal(double r){
     a = r;
+}
+// ====================================================
+// Accessor method getReal
+// Author: Damian Nguyen
+// Retrieves the real part of the complex number.
+// Parameter: None
+// Return value: return the real part of a complex number class as double
+// ====================================================
+
+double      Complex::getReal         ( void ) const {
+    return a;
+}
+//====================================================================
+// Accessor method setImag.
+// Author: Adam Cristo
+// Change b (imaginary part) to the specified parameter.
+// Parameters: r = double value for imaginary number
+// Return value is none
+//====================================================================
+void Complex::setImag(double r){
+    b = r;
 }
 //====================================================================
 // Taemin Lee
@@ -62,11 +108,13 @@ double Complex::getImag(void) const{
 // Taemin Lee
 //
 // operator=
-// c1 = c2
 // Assignment operator
-// Parameters: const Complex object &c
+// Assigns the real and imaginary part of another Complex object
+// to this Complex object.
+// Parameters: c - a const reference to the Complex object whose values 
+//                  will be assigned to this object.
 // Return Value: 
-// first values of &c are assigned to *this and then *this is returned.
+// A reference to this Complex object after assignment.
 //====================================================================
 Complex Complex::operator=(const Complex &c){
     a = c.a;
@@ -78,8 +126,9 @@ Complex Complex::operator=(const Complex &c){
 //
 // operator+
 // c1 = c2 + c3
-// Will take the components of c2 + c3 and return them to c1.
-// Parameters: Complex object c
+// Computes the sum of this Complex object and another Complex object.
+// Parameters: c - a const reference to the Complex object that will 
+//                 be added to this object.
 // Return Value: sum of *this + c
 //====================================================================
 Complex Complex::operator+(const Complex &c) const{
@@ -88,6 +137,43 @@ Complex Complex::operator+(const Complex &c) const{
     ret.a = c.a + (*this).a;
     ret.b = c.b + (*this).b;
 
+    return ret;
+}
+// ====================================================
+// Operator+ overload with adding decimal
+// Author: Damian Nguyen
+// Parameter: None
+// Create a Complex variable ret and perfom necessary addition with the real part
+// Return value: ret 
+// ====================================================
+Complex     Complex::operator+       ( double f ) const {
+    Complex ret; 
+    ret.a = a + f;
+    ret.b = b;
+    return ret;
+}
+// Operator + adding integers
+// Author: Adam Cristo
+// creates the verable and adds the integer.
+// returns ret
+Complex Complex::operator+ (int i) const{
+    Complex ret;
+    ret.a = a + i;
+    ret.b = b;
+    return ret;
+}
+// ====================================================
+// Operator- overload with subtracting complex number
+// Author: Damian Nguyen
+// Parameter: None
+// Create a Complex variable ret and perfom necessary subtraction with the real part
+// and imaginary part.
+// Return value: ret 
+// ====================================================
+Complex     Complex::operator-       ( const Complex &c ) const {
+    Complex ret;
+    ret.a = a - c.a;
+    ret.b = b - c.b;
     return ret;
 }
 //====================================================================
@@ -107,6 +193,40 @@ Complex Complex::operator-(double f) const{
 
     return ret;
 }
+// Operator - subtraction
+// Author: Adam Cristo
+// subtracts the variable by the integer
+// returns ret
+Complex Complex::operator- (int i) const{
+    Complex ret;
+    ret.a = a - i;
+    ret.b = b;
+    return ret;
+}
+// ====================================================
+// Operator* overload with multiplying complex number
+// Author: Damian Nguyen
+// Parameter: None
+// Create a Complex variable ret and perfom necessary multiplcation with the real part
+// and imaginary part.
+// Return value: ret 
+// ====================================================
+Complex     Complex::operator*       ( const Complex &c ) const {
+    Complex ret; 
+    ret.a = a*c.a - b*c.b;
+    ret.b = a*c.b + + b*c.a;
+    return ret;
+}
+// Operator * multiplication
+// Author: Adam Cristo
+// Multiplies the a times the float and the b times the float
+// Returns ret
+Complex Complex::operator* (const double f) const{
+    Complex ret;
+    ret.a = a * f;
+    ret.b = b * f;
+    return ret;
+}
 //====================================================================
 // Taemin Lee
 //
@@ -122,6 +242,39 @@ Complex Complex::operator*(int i) const{
     ret.a = (*this).a * i;
     ret.b = (*this).b * i;
 
+    return ret;
+}
+// Operator / division
+// Author: Adam Cristo
+// Checks if the variables are not 0
+// Does the complex forumula for complex number division
+// returns ret
+Complex Complex::operator/ (const Complex &c) const{
+    Complex ret;
+    if (c.a == 0 && c.b == 0){
+        cout << "Cannot divide by 0";
+        exit(1);
+    }
+    ret.a = ((a*c.a)+(b*c.b))/((c.^2)+(c.b^2));
+    ret.b = ((b*c.a)-(a*c.b))/((c.a^2)+(c.b^2));
+    return ret;
+}
+// ====================================================
+// Operator/ overload with dividing decimal
+// Author: Damian Nguyen
+// Parameter: None
+// Create a Complex variable ret and perfom necessary division with the real part
+// Return value: ret 
+// ====================================================
+
+Complex     Complex::operator/       ( double f ) const {
+    Complex ret;
+    if (f == 0) { //check if f = 0, cant divide
+        cout << "Cannot divide by 0";
+        exit(1);
+    }
+    ret.a = a/f;
+    ret.b = b/f;
     return ret;
 }
 //====================================================================
@@ -158,6 +311,19 @@ Complex Complex::operator~(void) const{
 
     return ret;
 }
+// ====================================================
+// Operator~ overload
+// Author: Damian Nguyen
+// Parameter: None
+// Create a Complex variable ret and perfom negation of sign
+// Return value: ret 
+// ====================================================
+Complex     Complex::operator~       ( void ) const {
+    Complex ret; 
+    ret.a = -1*a;
+    ret.b = -1*b;
+    return ret;
+}
 //====================================================================
 // Taemin Lee
 //
@@ -188,28 +354,6 @@ Complex Complex::operator^(int p) const{
 }
 
 // ====================================================
-// Copy constructor
-// Author: Damian Nguyen
-// Parameter: variable c of complex class passed by reference
-// Return value: None
-// ====================================================
-
-            Complex::Complex        ( const Complex &c ) {
-    a = c.a;
-    b = c.b;
-}
-// ====================================================
-// Accessor method getReal
-// Author: Damian Nguyen
-// Parameter: None
-// Return value: return the real part of a complex number class as double
-// ====================================================
-
-double      Complex::getReal         ( void ) const {
-    return a;
-
-}
-// ====================================================
 // Operator== overload 
 // Author: Damian Nguyen
 // Parameter: None
@@ -225,77 +369,18 @@ bool        Complex::operator==      ( const Complex &c ) const {
 
     return result;
 }
-// ====================================================
-// Operator+ overload with adding decimal
-// Author: Damian Nguyen
-// Parameter: None
-// Create a Complex variable ret and perfom necessary addition with the real part
-// Return value: ret 
-// ====================================================
-Complex     Complex::operator+       ( double f ) const {
-    Complex ret; 
-    ret.a = a + f;
-    ret.b = b;
-    return ret;
-}
-// ====================================================
-// Operator- overload with subtracting complex number
-// Author: Damian Nguyen
-// Parameter: None
-// Create a Complex variable ret and perfom necessary subtraction with the real part
-// and imaginary part.
-// Return value: ret 
-// ====================================================
-Complex     Complex::operator-       ( const Complex &c ) const {
-    Complex ret;
-    ret.a = a - c.a;
-    ret.b = b - c.b;
-    return ret;
-}
-// ====================================================
-// Operator* overload with multiplying complex number
-// Author: Damian Nguyen
-// Parameter: None
-// Create a Complex variable ret and perfom necessary multiplcation with the real part
-// and imaginary part.
-// Return value: ret 
-// ====================================================
-Complex     Complex::operator*       ( const Complex &c ) const {
-    Complex ret; 
-    ret.a = a*c.a - b*c.b;
-    ret.b = a*c.b + + b*c.a;
-    return ret;
-}
-// ====================================================
-// Operator/ overload with dividing decimal
-// Author: Damian Nguyen
-// Parameter: None
-// Create a Complex variable ret and perfom necessary division with the real part
-// Return value: ret 
-// ====================================================
-
-Complex     Complex::operator/       ( double f ) const {
-    Complex ret;
-    if (f == 0) { //check if f = 0, cant divide
-        cout << "Cannot divide by 0";
-        exit(1);
+// Operator != does not equal
+// Author: Adam Cristo
+// Checks if the variables are not equal to each other.
+// Return value is the result whether true or false (bool)
+bool Complex::operator!= (const Complex &c) const{
+    bool result;
+    if (a != c.a || b != c.b){
+        result = true;
+    } else {
+        result = false;
     }
-    ret.a = a/f;
-    ret.b = b/f;
-    return ret;
-}
-// ====================================================
-// Operator~ overload
-// Author: Damian Nguyen
-// Parameter: None
-// Create a Complex variable ret and perfom negation of sign
-// Return value: ret 
-// ====================================================
-Complex     Complex::operator~       ( void ) const {
-    Complex ret; 
-    ret.a = -1*a;
-    ret.b = -1*b;
-    return ret;
+    return result;
 }
 // ====================================================
 // cin >> overload to allow cin >> c
